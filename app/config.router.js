@@ -1,34 +1,11 @@
 (function(angular){
 'use strict';
-    angular
-    .module('ControlElectoralApp')
-    .run(['$rootScope', '$state', '$stateParams',
-        function ($rootScope, $state, $stateParams) {
-            $rootScope.$state = $state;
-            $rootScope.$stateParams = $stateParams;
-            $rootScope.$on('$stateChangeSuccess', function () {
-                window.scrollTo(0, 0);
-            });
-            FastClick.attach(document.body);
-        },
-    ])
-    .config(['$stateProvider', '$urlRouterProvider',
-        function ($stateProvider, $urlRouterProvider) {
 
-            // For unmatched routes
-            $urlRouterProvider.otherwise('/');
-
+angular.module('ControlElectoralApp')
+    .config(['$stateProvider', 
+        function ($stateProvider) {       
             // Application routes
-            $stateProvider
-                .state('app', {
-                    abstract: true,
-                    views:{
-                        'main@':{
-                            templateUrl: 'views/common/layout.html'
-                        }
-                    }
-                    
-                })
+            $stateProvider               
                 .state('app.dashboard', {
                     url: '/home',
                     parent:'app',
@@ -294,15 +271,6 @@
                     data: {
                         title: 'C3',
                     }
-                });
-        }
-    ]).config(['$ocLazyLoadProvider', function ($ocLazyLoadProvider) {
-        $ocLazyLoadProvider.config({
-            debug: false,
-            events: false
-        });
+                });               
     }]);
-
 }(window.angular));
-
-

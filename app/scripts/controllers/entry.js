@@ -27,7 +27,7 @@
             provinces.query(function (provinces) {
                 $scope.provincesList = angular.fromJson(provinces);
             }, function (err) {
-                console.err(err);
+                console.error(err);
             });
 
             //return cantones by Province
@@ -35,7 +35,7 @@
                 cantones.query({codeProvince: provinceCode}, function (cantones) {
                     $scope.cantonesByProvinceList = angular.fromJson(cantones);
                 }, function (err) {
-                    console.err(err);
+                    console.error(err);
                 });
             };
 
@@ -45,7 +45,7 @@
                     parroquias.query({codeCanton: cantonCode}, function (parroquias, status) {
                         $scope.parroquiasByCantonList = angular.fromJson(parroquias);
                     }, function (err, status) {
-                        console.err(err);
+                        console.error(err);
                     });
                 } else {
                     $scope.parroquiasByCantonList = [];
@@ -60,7 +60,7 @@
                     zonas.query({codeParroquia: parroquiaCode}, function (zonas) {
                         $scope.zonasByParroquiaList = angular.fromJson(zonas);
                     }, function (err) {
-                        console.err(err);
+                        console.error(err);
                     });
                 } else {
                     $scope.zonasByParroquiaList = [];
@@ -76,7 +76,7 @@
                     recintos.query({codeZona: zonaCode, codeParroquia: parroquiaCode}, function (recintos) {
                         $scope.recintosByZona = angular.fromJson(recintos);
                     }, function (err) {
-                        console.err(err);
+                        console.error(err);
                     });
                 } else {
                     $scope.recintosByZona = [];
@@ -100,7 +100,7 @@
                     juntas.juntaByRecinto.query({codeRecinto: codeRecinto, genero: genero}, function (juntas) {
                         $scope.juntasList = angular.fromJson(juntas);
                     }, function (err) {
-                        console.err(err);
+                        console.error(err);
                     });
                 } else {
                     $scope.juntasList = [];

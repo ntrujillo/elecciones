@@ -6,20 +6,15 @@ var service = {};
 
 service.query = query;
 service.getById = getById;
-service.search = search;
+service.create = create;
+service.update = update;
+service.delete = _delete;
 
 module.exports = service;
 
 function query(q,fields,sort,page,perPage){
-    //url?param1=1&param2=2
-    //req.query  ={param1:1,param2:2}
-    //en caso que no vengan parametros en el url req.query = {}
-    var criteria = {}
-    var q = req.query.q;    
-    var sort = req.query.sort;
-    var fields = req.query.fields;
-    var page = req.query.page;
-    var perPage = req.query.per_page;
+    var criteria = {};
+    var response = {};
     var deferred = Q.defer();
     
     if(q){
@@ -39,9 +34,7 @@ function query(q,fields,sort,page,perPage){
         }else{
             perPage = 10;
         }
-    }
-    
-    console.log('criteria: '+criteria);
+    }   
     
     Provincia.find(criteria).count(function(error, count){
          
@@ -49,7 +42,7 @@ function query(q,fields,sort,page,perPage){
                deferred.reject(err);
         }
         
-        res.header('X-Total-Count',count);
+        response.count = count;      
         //exec me permite dar mas especificaciones a find
         Provincia.find(criteria)
         .select(fields)
@@ -60,28 +53,13 @@ function query(q,fields,sort,page,perPage){
             if(error){
                    deferred.reject(err);
             }
-            deferred.resolve(provincias);  
+            response.provincias = provincias;
+            deferred.resolve(response);  
         });
         
     });
     return deferred.promise;
 }
-
-
-function search(q){
-     var deferred = Q.defer();
-    Provincia.find({$text:{$search:q}},function(err, provincias){
-        if(error){
-            deferred.reject(err);
-        }
-        deferred.resolve(provincias);
-    });
-
-    return deferred.promise;
-}
-
-
-
 
 function getById(_id) {
     var deferred = Q.defer();
@@ -99,3 +77,92 @@ function getById(_id) {
     return deferred.promise;
 };
 
+
+function create(provinciaParam) {
+    var deferred = Q.defer();
+    // validation
+    Provincia.findOne(
+        { code: provinciaParam.code },
+        function (err, provincia) {
+            if (err) deferred.reject(err);
+
+            if (provincia) {
+                // username already exists
+                deferred.reject('Code "' + provinciaParam.code + '" is already taken');
+            } else {
+                createProvincia(provincia);
+            }
+        });
+
+    function createProvincia(provincia) {
+
+        Provincia.create(
+            provincia,
+            function (err, doc) {
+                if (err) deferred.reject(err);
+
+                deferred.resolve();
+            });
+    }
+
+    return deferred.promise;
+};
+
+function update(_id, provinciaParam) {
+    var deferred = Q.defer();
+    // validation
+    Provincia.findById(_id, function (err, provincia) {
+        if (err) deferred.reject(err);
+
+        if (provincia.code !== provinciaParam.code) {
+            // code has changed so check if the new code is already taken
+            Provincia.findOne(
+                { code: provinciaParam.code },
+                function (err, provincia) {
+                    if (err) deferred.reject(err);
+
+                    if (provincia) {
+                        // username already exists
+                        deferred.reject('Code "' + req.body.code + '" is already taken')
+                    } else {
+                        updateUser(provincia);
+                    }
+                });
+        } else {
+            updateProvincia(provincia);
+        }
+    });
+
+    function updateProvincia(provincia) {
+        // fields to update
+        var set = {
+            name: provincia.name,
+            code: provincia.code         
+        };      
+
+        Provincia.findAndModify(
+            { _id: _id },
+            { $set: set },
+            function (err, doc) {
+                if (err) deferred.reject(err);
+
+                deferred.resolve();
+            });
+    }
+
+    return deferred.promise;
+};
+
+function _delete(_id) {
+    var deferred = Q.defer();
+
+    Provincia.remove(
+        { _id: _id },
+        function (err) {
+            if (err) deferred.reject(err);
+
+            deferred.resolve();
+        });
+
+    return deferred.promise;
+};

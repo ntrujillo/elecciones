@@ -1,6 +1,7 @@
 'use strict'
 
-var Provincia = require('../models/./provincia');
+var Canton = require('../models/./canton');
+var Provincia= require('../models/./provincia');
 var Q = require('q');
 
 var service = {};
@@ -13,10 +14,15 @@ service.delete = _delete;
 
 module.exports = service;
 
-function query(q,fields,sort,page,perPage){
+function query(id_provincia,q,fields,sort,page,perPage){
+
     var criteria = {};
     var response = {};
     var deferred = Q.defer();
+
+    if(id_provincia){
+        criteria.provincia=id_provincia;
+    }
     
     if(q){
         criteria.$text = {$search:q}
@@ -37,7 +43,7 @@ function query(q,fields,sort,page,perPage){
         }
     }   
     
-    Provincia.find(criteria).count(function(error, count){
+    Canton.find(criteria).count(function(error, count){
          
         if(error){
                deferred.reject(err);
@@ -45,17 +51,16 @@ function query(q,fields,sort,page,perPage){
         
         response.count = count;      
         //exec me permite dar mas especificaciones a find
-        Provincia.find(criteria)
+        Canton.find(criteria)
         .select(fields)
         .sort(sort)
         .skip(perPage * (page-1))
         .limit(perPage)
-        .populate('cantones')
-        .exec(function(error, provincias){
+        .exec(function(error, cantons){
             if(error){
                    deferred.reject(err);
             }
-            response.provincias = provincias;
+            response.cantons = cantons;
             deferred.resolve(response);  
         });
         
@@ -63,15 +68,14 @@ function query(q,fields,sort,page,perPage){
     return deferred.promise;
 }
 
-function getById(id) {
+function getById(id_provincia,id_canton) {
     var deferred = Q.defer();
-    Provincia.findOne({_id:id})
-    .populate('cantones')
-    .exec(function (err, provincia) {
+    Canton.findOne({provincia:id_provincia,_id:id_canton})
+    .populate('parroquias')
+    .exec(function (err, item) {
         if (err) deferred.reject(err);
-
-        if (provincia) {           
-            deferred.resolve(provincia);
+        if (item) {           
+            deferred.resolve(item);
         } else {
             // user not found
             deferred.resolve();
@@ -82,67 +86,83 @@ function getById(id) {
 };
 
 
-function create(provinciaParam) {
+function create(id_provincia, body) {
     var deferred = Q.defer();
+
     // validation  
-    Provincia.findOne(
-        { code: provinciaParam.code },
-        function (err, provincia) {
+    Canton.findOne(
+        { code: body.code },
+        function (err, item) {
             if (err) deferred.reject(err);
 
-            if (provincia) {
-                // username already exists
-                deferred.reject('Code "' + provinciaParam.code + '" is already taken');
+            if (item) {
+                // already exists
+                deferred.reject('Code "' + body.code + '" is already taken');
             } else {
-                createProvincia(provinciaParam);
+                createCanton(body);
             }
-        });
+        });   
+   
 
-    function createProvincia(provincia) {
-         Provincia.create(
-            provincia,
+    function createCanton(obj) {   
+        obj.provincia = id_provincia;
+         Canton.create(
+            obj,
             function (err, doc) {
-                if (err) deferred.reject(err);
+                if (err) {
+                    deferred.reject(err);
+                }else {
+
+                    Provincia.findById(id_provincia,function(err,prov){
+                        prov.cantones.push(doc);
+                        prov.save(function(error,prov){
+                            if(error) deferred.reject(error);
+                        });
+                    });
+                }
 
                 deferred.resolve();
             });
+
+
     }
 
     return deferred.promise;
 };
 
-function update(_id, provinciaParam) {
+function update(id_provincia, id_canton, body) {
     var deferred = Q.defer();
     // validation
-    Provincia.findById(_id, function (err, provincia) {
+    Canton.findOne({provincia:id_provincia,_id:id_canton}, function (err, item) {
         if (err) deferred.reject(err);
 
-        if (provincia.code !== provinciaParam.code) {
+        if (item.code !== body.code) {
+            console.log(item);
+            console.log(body);
             // code has changed so check if the new code is already taken
-            Provincia.findOne(
-                { code: provinciaParam.code },
-                function (err, provincia) {
+            Canton.findOne(
+                { code: body.code },
+                function (err, item) {
                     if (err) deferred.reject(err);
 
-                    if (provincia) {
+                    if (item) {
                         // username already exists
-                        deferred.reject('Code "' + provinciaParam.code + '" is already taken')
+                        deferred.reject('Code "' + body.code + '" is already taken')
                     } else {
-                        updateProvincia(provinciaParam);
+                        updateCanton(body);
                     }
                 });
         } else {
-            updateProvincia(provinciaParam);
+            updateCanton(body);
         }
     });
 
-    function updateProvincia(provincia) {        
-        Provincia.findById(_id,
-            function (err, prov) {
+    function updateCanton(obj) {        
+        Canton.findOne( {provincia:id_provincia,_id:id_canton},function (err, cant) {
                 if (err) deferred.reject(err);
-                prov.name = provincia.name;
-                prov.code = provincia.code;
-                prov.save(function(err){
+                cant.name = obj.name;
+                cant.code = obj.code;
+                cant.save(function(err){
                     if(err)deferred.reject(err);
                     deferred.resolve();
                 });
@@ -154,11 +174,11 @@ function update(_id, provinciaParam) {
     return deferred.promise;
 };
 
-function _delete(_id) {
+function _delete(id_provincia, id_canton) {
     var deferred = Q.defer();
 
-    Provincia.remove(
-        { _id: _id },
+    Canton.remove(
+        { _id: id_canton },
         function (err) {
             if (err) deferred.reject(err);
 

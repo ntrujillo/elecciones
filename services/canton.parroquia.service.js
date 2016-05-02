@@ -1,8 +1,7 @@
 'use strict'
-
-var Provincia = require('../models/./provincia');
+var Canton = require('../models/./canton');
+var Parroquia = require('../models/./parroquia');
 var Q = require('q');
-
 var service = {};
 
 service.query = query;
@@ -13,10 +12,15 @@ service.delete = _delete;
 
 module.exports = service;
 
-function query(q,fields,sort,page,perPage){
+function query(id_canton,q,fields,sort,page,perPage){
+
     var criteria = {};
     var response = {};
     var deferred = Q.defer();
+
+    if(id_canton){
+        criteria.canton=id_canton;
+    }
     
     if(q){
         criteria.$text = {$search:q}
@@ -37,7 +41,7 @@ function query(q,fields,sort,page,perPage){
         }
     }   
     
-    Provincia.find(criteria).count(function(error, count){
+    Parroquia.find(criteria).count(function(error, count){
          
         if(error){
                deferred.reject(err);
@@ -45,17 +49,16 @@ function query(q,fields,sort,page,perPage){
         
         response.count = count;      
         //exec me permite dar mas especificaciones a find
-        Provincia.find(criteria)
+        Parroquia.find(criteria)
         .select(fields)
         .sort(sort)
         .skip(perPage * (page-1))
         .limit(perPage)
-        .populate('cantones')
-        .exec(function(error, provincias){
+        .exec(function(error, parroquias){
             if(error){
                    deferred.reject(err);
             }
-            response.provincias = provincias;
+            response.parroquias = parroquias;
             deferred.resolve(response);  
         });
         
@@ -63,17 +66,16 @@ function query(q,fields,sort,page,perPage){
     return deferred.promise;
 }
 
-function getById(id) {
+function getById(id_canton,id_parroquia) {
     var deferred = Q.defer();
-    Provincia.findOne({_id:id})
-    .populate('cantones')
-    .exec(function (err, provincia) {
+    Parroquia.findOne({canton:id_canton,_id:id_parroquia})
+    .populate('zonas')
+    .exec(function (err, item) {
         if (err) deferred.reject(err);
-
-        if (provincia) {           
-            deferred.resolve(provincia);
+        if (item) {           
+            deferred.resolve(item);
         } else {
-            // user not found
+            // not found
             deferred.resolve();
         }
     });
@@ -82,67 +84,81 @@ function getById(id) {
 };
 
 
-function create(provinciaParam) {
+function create(id_canton, body) {
     var deferred = Q.defer();
+
     // validation  
-    Provincia.findOne(
-        { code: provinciaParam.code },
-        function (err, provincia) {
+    Parroquia.findOne(
+        { code: body.code },
+        function (err, item) {
             if (err) deferred.reject(err);
 
-            if (provincia) {
-                // username already exists
-                deferred.reject('Code "' + provinciaParam.code + '" is already taken');
+            if (item) {
+                // already exists
+                deferred.reject('Code "' + body.code + '" is already taken');
             } else {
-                createProvincia(provinciaParam);
+                createParroquia(body);
             }
-        });
+        });   
+   
 
-    function createProvincia(provincia) {
-         Provincia.create(
-            provincia,
+    function createParroquia(obj) {   
+        obj.canton = id_canton;
+         Parroquia.create(
+            obj,
             function (err, doc) {
-                if (err) deferred.reject(err);
+                if (err) {
+                    deferred.reject(err);
+                }else {
+
+                    Canton.findById(id_provincia,function(err,canton){
+                        canton.parroquias.push(doc);
+                        canton.save(function(error,canton){
+                            if(error) deferred.reject(error);
+                        });
+                    });
+                }
 
                 deferred.resolve();
             });
+
+
     }
 
     return deferred.promise;
 };
 
-function update(_id, provinciaParam) {
+function update(id_canton, id_parroquia, body) {
     var deferred = Q.defer();
     // validation
-    Provincia.findById(_id, function (err, provincia) {
+    Parroquia.findOne({canton:id_canton,_id:id_parroquia}, function (err, item) {
         if (err) deferred.reject(err);
 
-        if (provincia.code !== provinciaParam.code) {
+        if (item.code !== body.code) {          
             // code has changed so check if the new code is already taken
-            Provincia.findOne(
-                { code: provinciaParam.code },
-                function (err, provincia) {
+            Parroquia.findOne(
+                { code: body.code },
+                function (err, item) {
                     if (err) deferred.reject(err);
 
-                    if (provincia) {
+                    if (item) {
                         // username already exists
-                        deferred.reject('Code "' + provinciaParam.code + '" is already taken')
+                        deferred.reject('Code "' + body.code + '" is already taken')
                     } else {
-                        updateProvincia(provinciaParam);
+                        updateParroquia(body);
                     }
                 });
         } else {
-            updateProvincia(provinciaParam);
+            updateParroquia(body);
         }
     });
 
-    function updateProvincia(provincia) {        
-        Provincia.findById(_id,
-            function (err, prov) {
+    function updateParroquia(obj) {        
+        Parroquia.findOne( {canton:id_canton,_id:id_parroquia},function (err, parr) {
                 if (err) deferred.reject(err);
-                prov.name = provincia.name;
-                prov.code = provincia.code;
-                prov.save(function(err){
+                parr.name = obj.name;
+                parr.code = obj.code;
+                parr.save(function(err){
                     if(err)deferred.reject(err);
                     deferred.resolve();
                 });
@@ -154,11 +170,11 @@ function update(_id, provinciaParam) {
     return deferred.promise;
 };
 
-function _delete(_id) {
+function _delete(id_canton, id_parroquia) {
     var deferred = Q.defer();
 
-    Provincia.remove(
-        { _id: _id },
+    Parroquia.remove(
+        { _id: id_parroquia },
         function (err) {
             if (err) deferred.reject(err);
 

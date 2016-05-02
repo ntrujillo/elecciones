@@ -24,8 +24,12 @@ app.use('/api', expressJwt({ secret: config.secret }).unless({ path: ['/api/user
 app.use('/login', require('./controllers/login.controller'));
 app.use('/register', require('./controllers/register.controller'));
 app.use('/app', require('./controllers/app.controller'));
-app.use('/api/users', require('./controllers/api/users.controller'));
-app.use('/api/provincia', require('./controllers/api/provincia.controller'));
+app.use('/api/users', require('./controllers/api/user'));
+app.use('/api/provincia', require('./controllers/api/provincia'));
+app.use('/api/canton', require('./controllers/api/canton'));
+app.use('/api/parroquia', require('./controllers/api/parroquia'));
+app.use('/api/zona', require('./controllers/api/zona'));
+app.use('/api/recinto', require('./controllers/api/recinto'));
 
 // make '/app' default route
 app.get('/', function (req, res) {

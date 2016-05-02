@@ -3,31 +3,31 @@
         <label>Provincia</label>
         <select class="form-control" ng-change="getCantones(selectedProvincia)"
                 ng-model="selectedProvincia"
-                ng-options="c._id as c.NOM_PROVINCIA for c in provincesList"></select>
+                ng-options="c._id as c.name for c in provincesList"></select>
     </div>
     <div class="form-group">
         <label>Canton</label>
         <select class="form-control" ng-disabled="selectedProvincia===null?true:false"
                 ng-change="getParroquias(selectedCanton)" ng-model="selectedCanton"
-                ng-options="c._id as c.NOM_CANTON for c in cantonesByProvinceList"></select>
+                ng-options="c._id as c.name for c in cantonesByProvinceList"></select>
     </div>
     <div class="form-group">
         <label>Parroquia</label>
         <select class="form-control" ng-disabled="selectedCanton===null?true:false"
                 ng-change="getZonas(selectedParroquia)" ng-model="selectedParroquia"
-                ng-options="c._id as c.NOM_PARROQUIA for c in parroquiasByCantonList"></select>
+                ng-options="c._id as c.name for c in parroquiasByCantonList"></select>
     </div>
     <div class="form-group">
         <label>Zona</label>
         <select class="form-control" ng-disabled="selectedParroquia===null?true:false"
                 ng-change="getRecintos(selectedZona)" ng-model="selectedZona"
-                ng-options="c._id as c.NOM_ZONA for c in zonasByParroquiaList"></select>
+                ng-options="c._id as c.name for c in zonasByParroquiaList"></select>
     </div>
     <div class="form-group">
         <label>Recinto</label>
         <select class="form-control" ng-disabled="selectedZona===null?true:false"
                 ng-change="getGeneros(selectedRecinto!=null?true:false)" ng-model="selectedRecinto"
-                ng-options="c.COD_RECINTO as c.NOM_RECINTO for c in recintosByZona"></select>
+                ng-options="c._id as c.name for c in recintosByZona"></select>
     </div>
     <div class="form-group">
         <label>Genero</label>

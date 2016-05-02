@@ -1,7 +1,7 @@
 'use strict'
 
-var Provincia = require('../models/./provincia');
-var Q = require('q');
+var Recinto = require('../models/./recinto');
+var Junta = require('../models/./junta');
 
 var service = {};
 
@@ -13,10 +13,15 @@ service.delete = _delete;
 
 module.exports = service;
 
-function query(q,fields,sort,page,perPage){
+function query(id_recinto,q,fields,sort,page,perPage){
+
     var criteria = {};
     var response = {};
     var deferred = Q.defer();
+
+    if(id_recinto){
+        criteria.recinto=id_recinto;
+    }
     
     if(q){
         criteria.$text = {$search:q}
@@ -37,7 +42,7 @@ function query(q,fields,sort,page,perPage){
         }
     }   
     
-    Provincia.find(criteria).count(function(error, count){
+    Junta.find(criteria).count(function(error, count){
          
         if(error){
                deferred.reject(err);
@@ -45,17 +50,16 @@ function query(q,fields,sort,page,perPage){
         
         response.count = count;      
         //exec me permite dar mas especificaciones a find
-        Provincia.find(criteria)
+        Junta.find(criteria)
         .select(fields)
         .sort(sort)
         .skip(perPage * (page-1))
         .limit(perPage)
-        .populate('cantones')
-        .exec(function(error, provincias){
+        .exec(function(error, juntas){
             if(error){
                    deferred.reject(err);
             }
-            response.provincias = provincias;
+            response.juntas = juntas;
             deferred.resolve(response);  
         });
         
@@ -63,17 +67,14 @@ function query(q,fields,sort,page,perPage){
     return deferred.promise;
 }
 
-function getById(id) {
+function getById(id_recinto,id_junta) {
     var deferred = Q.defer();
-    Provincia.findOne({_id:id})
-    .populate('cantones')
-    .exec(function (err, provincia) {
+    Junta.findOne({recinto:id_recinto,_id:id_junta}, function (err, item) {
         if (err) deferred.reject(err);
-
-        if (provincia) {           
-            deferred.resolve(provincia);
+        if (item) {           
+            deferred.resolve(item);
         } else {
-            // user not found
+            // not found
             deferred.resolve();
         }
     });
@@ -82,67 +83,82 @@ function getById(id) {
 };
 
 
-function create(provinciaParam) {
+function create(id_recinto, body) {
     var deferred = Q.defer();
+
     // validation  
-    Provincia.findOne(
-        { code: provinciaParam.code },
-        function (err, provincia) {
+    Junta.findOne(
+        { code: body.code },
+        function (err, item) {
             if (err) deferred.reject(err);
 
-            if (provincia) {
-                // username already exists
-                deferred.reject('Code "' + provinciaParam.code + '" is already taken');
+            if (item) {
+                // already exists
+                deferred.reject('Code "' + body.code + '" is already taken');
             } else {
-                createProvincia(provinciaParam);
+                createJunta(body);
             }
-        });
+        });   
+   
 
-    function createProvincia(provincia) {
-         Provincia.create(
-            provincia,
+    function createJunta(obj) {   
+        obj.recinto = id_recinto;
+
+         Junta.create(
+            obj,
             function (err, doc) {
-                if (err) deferred.reject(err);
+                if (err) {
+                    deferred.reject(err);
+                }else {
+
+                    Recinto.findById(id_recinto,function(err,recinto){
+                        recinto.juntas.push(doc);
+                        recinto.save(function(error,parr){
+                            if(error) deferred.reject(error);
+                        });
+                    });
+                }
 
                 deferred.resolve();
             });
+
+
     }
 
     return deferred.promise;
 };
 
-function update(_id, provinciaParam) {
+function update(id_recinto, id_junta, body) {
     var deferred = Q.defer();
     // validation
-    Provincia.findById(_id, function (err, provincia) {
+    Junta.findOne({recinto:id_recinto,_id:id_junta}, function (err, item) {
         if (err) deferred.reject(err);
 
-        if (provincia.code !== provinciaParam.code) {
+        if (item.code !== body.code) {          
             // code has changed so check if the new code is already taken
-            Provincia.findOne(
-                { code: provinciaParam.code },
-                function (err, provincia) {
+            Junta.findOne(
+                { code: body.code },
+                function (err, item) {
                     if (err) deferred.reject(err);
 
-                    if (provincia) {
+                    if (item) {
                         // username already exists
-                        deferred.reject('Code "' + provinciaParam.code + '" is already taken')
+                        deferred.reject('Code "' + body.code + '" is already taken')
                     } else {
-                        updateProvincia(provinciaParam);
+                        updateJunta(body);
                     }
                 });
         } else {
-            updateProvincia(provinciaParam);
+            updateJunta(body);
         }
     });
 
-    function updateProvincia(provincia) {        
-        Provincia.findById(_id,
-            function (err, prov) {
+    function updateJunta(obj) {        
+        Junta.findOne( {recinto:id_recinto,_id:id_junta},function (err, jun) {
                 if (err) deferred.reject(err);
-                prov.name = provincia.name;
-                prov.code = provincia.code;
-                prov.save(function(err){
+                jun.name = obj.name;
+                jun.code = obj.code;
+                jun.save(function(err){
                     if(err)deferred.reject(err);
                     deferred.resolve();
                 });
@@ -154,11 +170,11 @@ function update(_id, provinciaParam) {
     return deferred.promise;
 };
 
-function _delete(_id) {
+function _delete(id_recinto, id_junta) {
     var deferred = Q.defer();
 
-    Provincia.remove(
-        { _id: _id },
+    Junta.remove(
+        { _id: id_recinto },
         function (err) {
             if (err) deferred.reject(err);
 

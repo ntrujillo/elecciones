@@ -1,4 +1,5 @@
-﻿var config = require('config.json');
+﻿'use strict'
+var config = require('config.json');
 var usersDb = require('../models/./user');
 var _ = require('lodash');
 var jwt = require('jsonwebtoken');

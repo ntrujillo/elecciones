@@ -13,6 +13,6 @@ var Zona= new Schema({
 	recintos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recinto' }]
 });
 
-Zona.index({name:'text'});
+Zona.index({code:'text'});
 
 module.exports = mongoose.model('Zona',Zona);

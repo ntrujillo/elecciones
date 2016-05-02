@@ -6,12 +6,13 @@ var mongoose = require('mongoose');
 //MongoDB por default lo crea , en modo producción hay que crear primero el schema en la BDD
 var Schema = mongoose.Schema;
 
-var Provincia= new Schema({
+var Parroquia= new Schema({
 	name:String,
 	code:String,
-	cantones: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Canton' }]
+	canton: { type: mongoose.Schema.Types.ObjectId, ref: 'Canton' },
+	zona: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Zona' }]
 });
 
-Provincia.index({code:'text'});
+Parroquia.index({code:'text'});
 
-module.exports = mongoose.model('Provincia',Provincia);
+module.exports = mongoose.model('Parroquia',Parroquia);

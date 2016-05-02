@@ -56,6 +56,7 @@ angular
         // get JWT token from server
         $.get('/app/token', function (token) {
             window.jwtToken = token;
+            console.log(token);
             angular.bootstrap(document, ['ControlElectoralApp']);
         });
     });

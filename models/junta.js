@@ -9,9 +9,11 @@ var Schema = mongoose.Schema;
 var Junta= new Schema({
 	name:String,
 	code:String,
+	gender:String,
+	empadronados:Number,
 	recinto: { type: mongoose.Schema.Types.ObjectId, ref: 'Recinto' }
 });
 
-Junta.index({name:'text'});
+Junta.index({code:'text'});
 
 module.exports = mongoose.model('Junta',Junta);

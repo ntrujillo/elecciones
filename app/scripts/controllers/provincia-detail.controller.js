@@ -2,15 +2,21 @@
 	'use strict';
 
 angular.module('ControlElectoralApp')
-    .controller('ProvinciaDetailCtrl',['$stateParams','$uibModal', 'CantonResource',
-        function ($stateParams, $modal, CantonResource) {
+    .controller('ProvinciaDetailCtrl',['$stateParams','$uibModal', 'CantonResource','ProvinciaResource',
+        function ($stateParams, $modal, CantonResource, ProvinciaResource) {
         var ctrl = this;
         ctrl.registros = [];
         ctrl.pageno = 1;        
         ctrl.total_count = 0;
         ctrl.itemsPerPage = 5;
 
+
+
         function loadData(page) {
+            ProvinciaResource.get({id:$stateParams.id},function(result){
+                ctrl.provincia = result;
+            });
+
             CantonResource.query({id_provincia: $stateParams.id, page: page, per_page: ctrl.itemsPerPage}, function(result, headers) {                
                 ctrl.registros = result;
                 ctrl.total_count = headers('X-Total-Count');
@@ -64,7 +70,7 @@ angular.module('ControlElectoralApp')
 
                 modalInstance.result.then(function(obj) {
                   ctrl.result = obj;
-                  ctrl.registros.push(obj);
+                  ctrl.refresh();
                 });
         };  
         ctrl.refresh = refresh;       

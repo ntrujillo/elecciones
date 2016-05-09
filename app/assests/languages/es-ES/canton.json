@@ -1,7 +1,7 @@
 {
 	"canton" : {
             "home": {
-                "title": "Cantones",
+                "title": "Cantones de la provincia {{name}}",
                 "createLabel": "Crear Cantón",
                 "createOrEditLabel": "Crear or editar Cantón"
             },

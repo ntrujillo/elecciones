@@ -129,13 +129,13 @@ angular.module('ControlElectoralApp')
                          translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                             $translatePartialLoader.addPart('provincia');
                             return $translate.refresh();
-                        }],
+                        }]
                     },
-                    data: {
-                        title: 'Provincia',
+                    data : {
+
                     }
                 })
-                .state('app.canton', {
+                .state('app.provincia-detail', {
                     parent:'app',
                     url: '/provincia/{id}/canton',                   
                     views:{
@@ -148,20 +148,20 @@ angular.module('ControlElectoralApp')
                         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load([
                                 {
-                                    name: 'provincia',
-                                    files: [                                      
-                                        'scripts/services/canton.service.js',
-                                        'scripts/controllers/provincia-detail.controller.js'                                        
+                                    name: 'provincia-detail',
+                                    files: [   
+                                      'scripts/services/provincia.service.js',                                    
+                                      'scripts/services/canton.service.js',                                                                            
+                                      'scripts/controllers/provincia-detail.controller.js'                                        
                                     ]
                                 }])
                         }],
-                         translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                        translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                             $translatePartialLoader.addPart('canton');
                             return $translate.refresh();
-                        }],
-                    },
-                    data: {
-                        title: 'Provincia',
+                        }]
+                    }, data :{
+
                     }
                 })                     
                 // Chart routes

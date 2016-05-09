@@ -18,6 +18,12 @@
 	    },
         "message" : {
             "load" : "Cargando datos"
+        },
+        "tooltip" : {
+            "edit":"Editar",
+            "seechilds" : "Ver detalle",
+            "delete" : "Eliminar"
+
         }
 	},
 	"entity": {

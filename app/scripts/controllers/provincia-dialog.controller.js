@@ -19,8 +19,8 @@ angular.module('ControlElectoralApp').controller('ProvinciaDialogCtrl',
         };
 
         $scope.save = function () {
-            if ($scope.provincia.id != null) {
-                ProvinciaResource.update($scope.provincia, onSaveFinished);
+            if ($scope.provincia._id != null) {
+                ProvinciaResource.update({id:$scope.provincia._id}, $scope.provincia, onSaveFinished);
             } else {
                 ProvinciaResource.save($scope.provincia, onSaveFinished);
             }

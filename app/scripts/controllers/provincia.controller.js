@@ -8,7 +8,7 @@ angular.module('ControlElectoralApp')
         ctrl.registros = [];
         ctrl.pageno = 1;        
         ctrl.total_count = 0;
-        ctrl.itemsPerPage = 5;
+        ctrl.itemsPerPage = 5;      
 
         function loadData(page) {
             ProvinciaResource.query({page: page, per_page: ctrl.itemsPerPage}, function(result, headers) {                
@@ -27,12 +27,12 @@ angular.module('ControlElectoralApp')
        function confirmDelete(id) {
             ProvinciaResource.delete({id: id},
                 function () {
-                    ctrl.loadData(ctrl.pageno);
+                    ctrl.refresh();
                     $('#deleteRegistroConfirmation').modal('hide');                    
                 });
         };
 
-        function refresh() {
+        function refresh() {           
             ctrl.loadData(ctrl.pageno);          
         };    
 
@@ -63,7 +63,7 @@ angular.module('ControlElectoralApp')
 
                 modalInstance.result.then(function(obj) {
                   ctrl.result = obj;
-                  ctrl.registros.push(obj);
+                  ctrl.refresh()
                 });
         };  
         ctrl.refresh = refresh;       
@@ -72,6 +72,7 @@ angular.module('ControlElectoralApp')
         ctrl.loadData = loadData;
         ctrl.showModal = showModal;
         ctrl.refresh();
+
 
     }]);
 }(window.angular));

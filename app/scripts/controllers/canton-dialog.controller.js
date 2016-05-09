@@ -19,8 +19,8 @@ angular.module('ControlElectoralApp').controller('CantonDialogCtrl',
         };
 
         $scope.save = function () {
-            if ($scope.canton.id != null) {
-                CantonResource.update({id_provincia:$stateParams.id}, $scope.canton, onSaveFinished);
+            if ($scope.canton._id != null) {
+                CantonResource.update({id_provincia:$stateParams.id,id:$scope.canton._id}, $scope.canton, onSaveFinished);
             } else {
                 CantonResource.save({id_provincia:$stateParams.id}, $scope.canton, onSaveFinished);
             }

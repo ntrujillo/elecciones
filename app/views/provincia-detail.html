@@ -1,11 +1,12 @@
 <div>
-    <h2 translate="canton.home.title">Cantones</h2>
+    <h2 translate="canton.home.title" translate-values="{name : '{{ctrl.provincia.name}}'}">Cantones</h2>
     <jh-alert></jh-alert>
     <div class="container">
         <div class="row">
             <div class="col-md-4">
                 <button class="btn btn-primary" ng-click="ctrl.showModal()">
-                    <span class="glyphicon glyphicon-flash"></span> <span translate="canton.home.createLabel">Create a new Canton</span>
+                    <span class="glyphicon glyphicon-flash"></span> 
+                    <span translate="canton.home.createLabel">Create a new Canton</span>
                 </button>
             </div>
         </div>
@@ -39,8 +40,8 @@
     <div class="table-responsive">
         <table class="table table-striped table-hover">
                 <col style="width: 20%">
-                <col style="width: 65%">
-                <col style="width: 15%">                
+                <col style="width: 70%">
+                <col style="width: 10%">                
                 <thead>
                     <tr>
                         <th translate="entity.field.code">Código</th>
@@ -59,12 +60,7 @@
                                     ng-click="ctrl.showModal(registro)"
                                     class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>
-                            </button>
-                             <button type="button" title="editar"
-                                    ui-sref="app.canton.detail({id:registro._id})"
-                                    class="btn btn-info btn-sm">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                            </button>
+                            </button>                             
                             <button type="button" title="eliminar"
                                     ng-click="ctrl.deleteRegistro(registro._id)"
                                     class="btn btn-danger btn-sm">

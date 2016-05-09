@@ -13,23 +13,40 @@ angular
         'ngResource',
         'chart.js',
         'oc.lazyLoad',
-        'ngStorage'
+        'ngStorage',
+        'pascalprecht.translate',
+        'angularUtils.directives.dirPagination'
     ])
-    .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider',
-        function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider',"$translateProvider", "$translatePartialLoaderProvider",
+        function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $translateProvider, $translatePartialLoaderProvider) {
             // For unmatched routes
             $urlRouterProvider.otherwise('/');
             // Application routes
             $stateProvider
                 .state('app', {
-                    abstract: true,
+                    'abstract': true,
                     views:{
-                        'main@':{
+                        'main':{
                             templateUrl: 'views/common/layout.html'
                         }
+                    },
+                    resolve: {
+                        translatePartialLoader: ['$translate', '$translatePartialLoader', 
+                        function ($translate, $translatePartialLoader) {
+                            $translatePartialLoader.addPart('global');
+                            return $translate.refresh();
+                        }]
                     }
                     
             });
+
+            $urlRouterProvider.otherwise('home');
+
+            $translateProvider.useLoader('$translatePartialLoader', {
+                  urlTemplate: '/app/assests/languages/{lang}/{part}.json'
+            });
+
+            $translateProvider.preferredLanguage('es-ES');            
 
             $ocLazyLoadProvider.config({
                 debug: false,
@@ -46,9 +63,8 @@ angular
                 window.scrollTo(0, 0);
                 $rootScope.activeTab = toState.data.activeTab;
             });
-            FastClick.attach(document.body);
-            $state.go('app.dashboard');
-        },
+            FastClick.attach(document.body);           
+        }
     ]);
 
     // manually bootstrap angular after the JWT token is retrieved from the server

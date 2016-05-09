@@ -6,7 +6,7 @@ angular.module('ControlElectoralApp')
         function ($stateProvider) {       
             // Application routes
             $stateProvider               
-                .state('app.dashboard', {
+                .state('home', {
                     url: '/home',
                     parent:'app',
                     views:{
@@ -105,7 +105,65 @@ angular.module('ControlElectoralApp')
                     data: {
                         title: 'Registro de votos',
                     }
-                })                
+                })
+                .state('app.provincia', {
+                    parent:'app',
+                    url: '/provincia',                    
+                    views:{
+                        'content':{
+                            templateUrl: 'views/provincias.html',
+                            controller: 'ProvinciaCtrl as ctrl'
+                        }
+                    },                    
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'provincia',
+                                    files: [                                      
+                                        'scripts/services/provincia.service.js',
+                                        'scripts/controllers/provincia.controller.js'                                        
+                                    ]
+                                }])
+                        }],
+                         translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                            $translatePartialLoader.addPart('provincia');
+                            return $translate.refresh();
+                        }],
+                    },
+                    data: {
+                        title: 'Provincia',
+                    }
+                })
+                .state('app.canton', {
+                    parent:'app',
+                    url: '/provincia/{id}/canton',                   
+                    views:{
+                        'content':{
+                            templateUrl: 'views/provincia-detail.html',
+                            controller: 'ProvinciaDetailCtrl as ctrl'
+                        }
+                    },                    
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'provincia',
+                                    files: [                                      
+                                        'scripts/services/canton.service.js',
+                                        'scripts/controllers/provincia-detail.controller.js'                                        
+                                    ]
+                                }])
+                        }],
+                         translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                            $translatePartialLoader.addPart('canton');
+                            return $translate.refresh();
+                        }],
+                    },
+                    data: {
+                        title: 'Provincia',
+                    }
+                })                     
                 // Chart routes
                 .state('app.charts', {                   
                     abstract: true,

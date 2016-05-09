@@ -1,0 +1,15 @@
+{
+	"menu":{
+		"home":"Home",
+		"entity":"Entities",
+		"about":"About",
+		"entry-votos":"Entry Votos",
+		"search-votos":"Search Votos",
+		"admin":"Administration",
+		"signup":"New User"
+	},
+	"home":{
+		"welcome":"Welcome",
+		"greeting":"Universidad Central del Ecuador"
+	}
+}

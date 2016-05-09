@@ -25,9 +25,9 @@
 
         <!-- dashboard -->
         <li ui-sref-active="active">
-            <a ui-sref="app.dashboard">
+            <a ui-sref="home">
                 <i class="fa fa-flask"></i>
-                <span>Home</span>
+                <span translate="global.menu.home">Home</span>
             </a>
         </li>
         <!-- /dashboard -->
@@ -97,6 +97,49 @@
             </ul>
         </li>
         <!-- /charts -->
+        <!--admin-->
+
+        <li data-ng-class="{open: $state.includes('app.charts')}">
+            <a href="javascript:;">
+                <i class="glyphicon glyphicon-cog"></i>
+                <span>Administrador</span>
+            </a>
+            <ul class="sub-menu">
+                <li ui-sref-active="active">
+                    <a ui-sref="app.provincia">
+                        <span>Provincias</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="app.canton">
+                        <span>Cantones</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="app.charts.chartjs">
+                        <span>Parroquias</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="app.charts.rickshaw">
+                        <span>Zonas</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="app.charts.nvd3">
+                        <span>Recintos</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="app.charts.c3">
+                        <span>Juntas</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+
+        <!--/admin-->
 
 </nav>
 <!-- /main navigation -->

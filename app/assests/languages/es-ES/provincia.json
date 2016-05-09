@@ -10,8 +10,6 @@
             },
             "detail": {
                 "title": "Provincia"
-            },
-            "name": "Nombre",
-            "code": "Código"            
+            }            
     }
 }

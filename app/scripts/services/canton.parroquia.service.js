@@ -2,8 +2,8 @@
 	'use strict';
 
 angular.module('ControlElectoralApp')
-    .factory('CantonResource', function ($resource) {
-        return $resource('/api/canton/:id', {}, {
+    .factory('CantonParroquiaResource', function ($resource) {
+        return $resource('/api/canton/:id_canton/parroquia/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',

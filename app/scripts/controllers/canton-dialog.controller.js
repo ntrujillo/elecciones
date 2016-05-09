@@ -2,13 +2,13 @@
 	'use strict';
 
 angular.module('ControlElectoralApp').controller('CantonDialogCtrl',
-    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'CantonResource',
-        function($scope, $stateParams, $modalInstance, entity, CantonResource) {
+    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'ProvinciaCantonResource',
+        function($scope, $stateParams, $modalInstance, entity, ProvinciaCantonResource) {
 
 
 
         $scope.initData = function(id) {
-            CantonResource.get({id_provincia:$stateParams.id, id : id}, function(result) {
+            ProvinciaCantonResource.get({id_provincia:$stateParams.id, id : id}, function(result) {
                 $scope.canton = result;
             });
         };
@@ -20,9 +20,9 @@ angular.module('ControlElectoralApp').controller('CantonDialogCtrl',
 
         $scope.save = function () {
             if ($scope.canton._id != null) {
-                CantonResource.update({id_provincia:$stateParams.id,id:$scope.canton._id}, $scope.canton, onSaveFinished);
+                ProvinciaCantonResource.update({id_provincia:$stateParams.id,id:$scope.canton._id}, $scope.canton, onSaveFinished);
             } else {
-                CantonResource.save({id_provincia:$stateParams.id}, $scope.canton, onSaveFinished);
+                ProvinciaCantonResource.save({id_provincia:$stateParams.id}, $scope.canton, onSaveFinished);
             }
         };
 

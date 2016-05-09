@@ -111,7 +111,7 @@ function create(id_canton, body) {
                     deferred.reject(err);
                 }else {
 
-                    Canton.findById(id_provincia,function(err,canton){
+                    Canton.findById(id_canton,function(err,canton){
                         canton.parroquias.push(doc);
                         canton.save(function(error,canton){
                             if(error) deferred.reject(error);

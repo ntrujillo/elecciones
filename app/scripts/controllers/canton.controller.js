@@ -1,43 +1,29 @@
-'use strict';
+(function(angular){
+	'use strict';
+
 
 angular.module('ControlElectoralApp')
-    .controller('CantonCtrl', function ($scope, CantonResource, ParseLinks) {
-        $scope.cantons = [];
-        $scope.page = 1;
-        $scope.loadAll = function() {
-            CantonResource.query({page: $scope.page, per_page: 10}, function(result, headers) {
-                $scope.links = ParseLinks.parse(headers('link'));
-                $scope.cantons = result;
+    .controller('CantonCtrl',['CantonResource',function (CantonResource) {
+        var ctrl = this;
+        ctrl.registros = [];
+        ctrl.pageno = 1;        
+        ctrl.total_count = 0;
+        ctrl.itemsPerPage = 5;      
+
+        function loadData(page) {
+            CantonResource.query({page: page, per_page: ctrl.itemsPerPage}, function(result, headers) {                
+                ctrl.registros = result;
+                ctrl.total_count = headers('X-Total-Count');
             });
-        };
-        $scope.loadPage = function(page) {
-            $scope.page = page;
-            $scope.loadAll();
-        };
-        $scope.loadAll();
+        };     
 
-        $scope.delete = function (id) {
-            CantonResource.get({id: id}, function(result) {
-                $scope.canton = result;
-                $('#deleteCantonConfirmation').modal('show');
-            });
-        };
 
-        $scope.confirmDelete = function (id) {
-            CantonResource.delete({id: id},
-                function () {
-                    $scope.loadAll();
-                    $('#deleteCantonConfirmation').modal('hide');
-                    $scope.clear();
-                });
-        };
-
-        $scope.refresh = function () {
-            $scope.loadAll();
-            $scope.clear();
-        };
-
-        $scope.clear = function () {
-            $scope.canton = {name: null, id: null};
-        };
-    });
+        function refresh() {           
+            loadData(ctrl.pageno);          
+        };    
+         
+        ctrl.refresh = refresh;   
+        ctrl.loadData = loadData;          
+        ctrl.refresh();
+    }]);
+}(window.angular));

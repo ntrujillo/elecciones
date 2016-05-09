@@ -151,7 +151,7 @@ angular.module('ControlElectoralApp')
                                     name: 'provincia-detail',
                                     files: [   
                                       'scripts/services/provincia.service.js',                                    
-                                      'scripts/services/canton.service.js',                                                                            
+                                      'scripts/services/provincia.canton.service.js',                                                                            
                                       'scripts/controllers/provincia-detail.controller.js'                                        
                                     ]
                                 }])
@@ -163,7 +163,65 @@ angular.module('ControlElectoralApp')
                     }, data :{
 
                     }
-                })                     
+                })
+                .state('app.canton', {
+                    parent:'app',
+                    url: '/canton',                    
+                    views:{
+                        'content':{
+                            templateUrl: 'views/cantones.html',
+                            controller: 'CantonCtrl as ctrl'
+                        }
+                    },                    
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'canton',
+                                    files: [                                      
+                                        'scripts/services/canton.service.js',
+                                        'scripts/controllers/canton.controller.js'                                        
+                                    ]
+                                }])
+                        }],
+                         translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                            $translatePartialLoader.addPart('canton');
+                            return $translate.refresh();
+                        }]
+                    },
+                    data : {
+
+                    }
+                })
+                .state('app.canton-detail', {
+                    parent:'app',
+                    url: '/canton/{id}/parroquia',                   
+                    views:{
+                        'content':{
+                            templateUrl: 'views/canton-detail.html',
+                            controller: 'CantonDetailCtrl as ctrl'
+                        }
+                    },                    
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'provincia-detail',
+                                    files: [   
+                                      'scripts/services/canton.service.js',                                    
+                                      'scripts/services/canton.parroquia.service.js',                                                                            
+                                      'scripts/controllers/canton-detail.controller.js'                                        
+                                    ]
+                                }])
+                        }],
+                        translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                            $translatePartialLoader.addPart('parroquia');
+                            return $translate.refresh();
+                        }]
+                    }, data :{
+
+                    }
+                })                    
                 // Chart routes
                 .state('app.charts', {                   
                     abstract: true,

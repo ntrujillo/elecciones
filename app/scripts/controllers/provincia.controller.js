@@ -68,9 +68,9 @@ angular.module('ControlElectoralApp')
         };  
         ctrl.refresh = refresh;       
         ctrl.confirmDelete = confirmDelete;
-        ctrl.deleteRegistro = _delete;        
-        ctrl.loadData = loadData;
+        ctrl.deleteRegistro = _delete;     
         ctrl.showModal = showModal;
+        ctrl.loadData = loadData;
         ctrl.refresh();
 
 

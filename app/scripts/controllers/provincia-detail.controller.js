@@ -2,8 +2,8 @@
 	'use strict';
 
 angular.module('ControlElectoralApp')
-    .controller('ProvinciaDetailCtrl',['$stateParams','$uibModal', 'CantonResource','ProvinciaResource',
-        function ($stateParams, $modal, CantonResource, ProvinciaResource) {
+    .controller('ProvinciaDetailCtrl',['$stateParams','$uibModal', 'ProvinciaCantonResource','ProvinciaResource',
+        function ($stateParams, $modal, ProvinciaCantonResource, ProvinciaResource) {
         var ctrl = this;
         ctrl.registros = [];
         ctrl.pageno = 1;        
@@ -17,7 +17,7 @@ angular.module('ControlElectoralApp')
                 ctrl.provincia = result;
             });
 
-            CantonResource.query({id_provincia: $stateParams.id, page: page, per_page: ctrl.itemsPerPage}, function(result, headers) {                
+            ProvinciaCantonResource.query({id_provincia: $stateParams.id, page: page, per_page: ctrl.itemsPerPage}, function(result, headers) {                
                 ctrl.registros = result;
                 ctrl.total_count = headers('X-Total-Count');
             });
@@ -25,14 +25,14 @@ angular.module('ControlElectoralApp')
 
 
         function _delete(id) {
-            CantonResource.get({id: id}, function(result) {
+            ProvinciaCantonResource.get({id_provincia: $stateParams.id, id:id}, function(result) {
                 ctrl.registro = result;
                 $('#deleteRegistroConfirmation').modal('show');
             });
         };
 
        function confirmDelete(id) {
-            CantonResource.delete({id: id},
+            ProvinciaCantonResource.delete({id_provincia: $stateParams.id, id: id},
                 function () {
                     ctrl.loadData(ctrl.pageno);
                     $('#deleteRegistroConfirmation').modal('hide');                    

@@ -1,7 +1,8 @@
 {
 	"canton" : {
             "home": {
-                "title": "Cantones de la provincia {{name}}",
+                "title": "Cantones",
+                "titleWithProvincia" :"Cantones de la provincia de {{name}}",
                 "createLabel": "Crear Cantón",
                 "createOrEditLabel": "Crear or editar Cantón"
             },
@@ -10,8 +11,6 @@
             },
             "detail": {
                 "title": "Cantón"
-            },
-            "name": "Nombre",
-            "code": "Código"            
+            }            
     }
 }

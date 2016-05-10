@@ -1,18 +1,18 @@
 'use strict'
-var ParroquiaService = require('services/parroquia.service');
+var ZonaService = require('services/zona.service');
 
-function queryParroquia(req, res) {
+function queryZona(req, res) {
     var q = req.query.q;      
     var fields = req.query.fields;
     var sort = req.query.sort;
     var page = req.query.page;
     var perPage = req.query.per_page;
     
-    ParroquiaService.query(q,fields, sort, page, perPage)
+    ZonaService.query(q,fields, sort, page, perPage)
         .then(function (response) {
-            if (response.parroquias) {
+            if (response.zonas) {
                 res.header('X-Total-Count',response.count);
-                res.send(response.parroquias);
+                res.send(response.zonas);
             } else {
                 res.sendStatus(404);
             }
@@ -22,8 +22,8 @@ function queryParroquia(req, res) {
         });
 };
 
-function getParroquiaById(req, res) {
-    ParroquiaService.getById(req.params._id)
+function getZonaById(req, res) {
+    ZonaService.getById(req.params._id)
         .then(function (obj) {
             if (obj) {
                 res.send(obj);
@@ -36,5 +36,5 @@ function getParroquiaById(req, res) {
         });
 };
 
-module.exports.queryParroquia=queryParroquia;
-module.exports.getParroquiaById=getParroquiaById;
+module.exports.queryZona=queryZona;
+module.exports.getZonaById=getZonaById;

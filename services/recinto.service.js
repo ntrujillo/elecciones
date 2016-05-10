@@ -1,6 +1,6 @@
 'use strict'
 
-var Parroquia = require('../models/./parroquia');
+var Recinto = require('../models/./recinto');
 var Q = require('q');
 
 var service = {};
@@ -35,7 +35,7 @@ function query(q,fields,sort,page,perPage){
         }
     }   
     
-    Parroquia.find(criteria).count(function(error, count){
+    Recinto.find(criteria).count(function(error, count){
          
         if(error){
                deferred.reject(err);
@@ -43,17 +43,17 @@ function query(q,fields,sort,page,perPage){
         
         response.count = count;      
         //exec me permite dar mas especificaciones a find
-        Parroquia.find(criteria)
+        Recinto.find(criteria)
         .select(fields)
         .sort(sort)
         .skip(perPage * (page-1))
         .limit(perPage)
-        .populate('zonas')
-        .exec(function(error, parroquias){
+        .populate('juntas')
+        .exec(function(error, recintos){
             if(error){
                    deferred.reject(err);
             }
-            response.parroquias = parroquias;
+            response.recintos = recintos;
             deferred.resolve(response);  
         });
         
@@ -63,13 +63,13 @@ function query(q,fields,sort,page,perPage){
 
 function getById(id) {
     var deferred = Q.defer();
-    Parroquia.findOne({_id:id})
-    .populate('zonas')
-    .exec(function (err, parroquia) {
+    Recinto.findOne({_id:id})
+    .populate('juntas')
+    .exec(function (err, junta) {
         if (err) deferred.reject(err);
 
-        if (Parroquia) {           
-            deferred.resolve(parroquia);
+        if (junta) {           
+            deferred.resolve(junta);
         } else {
             // user not found
             deferred.resolve();

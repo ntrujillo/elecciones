@@ -1,6 +1,6 @@
 'use strict'
 
-var Parroquia = require('../models/./parroquia');
+var Zona = require('../models/./zona');
 var Q = require('q');
 
 var service = {};
@@ -35,7 +35,7 @@ function query(q,fields,sort,page,perPage){
         }
     }   
     
-    Parroquia.find(criteria).count(function(error, count){
+    Zona.find(criteria).count(function(error, count){
          
         if(error){
                deferred.reject(err);
@@ -43,17 +43,17 @@ function query(q,fields,sort,page,perPage){
         
         response.count = count;      
         //exec me permite dar mas especificaciones a find
-        Parroquia.find(criteria)
+        Zona.find(criteria)
         .select(fields)
         .sort(sort)
         .skip(perPage * (page-1))
         .limit(perPage)
-        .populate('zonas')
-        .exec(function(error, parroquias){
+        .populate('recintos')
+        .exec(function(error, zonas){
             if(error){
                    deferred.reject(err);
             }
-            response.parroquias = parroquias;
+            response.zonas = zonas;
             deferred.resolve(response);  
         });
         
@@ -63,13 +63,13 @@ function query(q,fields,sort,page,perPage){
 
 function getById(id) {
     var deferred = Q.defer();
-    Parroquia.findOne({_id:id})
+    Zona.findOne({_id:id})
     .populate('zonas')
-    .exec(function (err, parroquia) {
+    .exec(function (err, zona) {
         if (err) deferred.reject(err);
 
-        if (Parroquia) {           
-            deferred.resolve(parroquia);
+        if (zona) {           
+            deferred.resolve(zona);
         } else {
             // user not found
             deferred.resolve();

@@ -34,5 +34,6 @@ angular.module('ControlElectoralApp').controller('ParroquiaDialogCtrl',
             $scope.initData(entity._id);
         }
         
+        
 }]);
 }(window.angular));

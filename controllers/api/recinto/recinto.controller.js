@@ -1,18 +1,18 @@
 'use strict'
-var ParroquiaService = require('services/parroquia.service');
+var RecintoService = require('services/recinto.service');
 
-function queryParroquia(req, res) {
+function queryRecinto(req, res) {
     var q = req.query.q;      
     var fields = req.query.fields;
     var sort = req.query.sort;
     var page = req.query.page;
     var perPage = req.query.per_page;
     
-    ParroquiaService.query(q,fields, sort, page, perPage)
+    RecintoService.query(q,fields, sort, page, perPage)
         .then(function (response) {
-            if (response.parroquias) {
+            if (response.juntas) {
                 res.header('X-Total-Count',response.count);
-                res.send(response.parroquias);
+                res.send(response.juntas);
             } else {
                 res.sendStatus(404);
             }
@@ -22,8 +22,8 @@ function queryParroquia(req, res) {
         });
 };
 
-function getParroquiaById(req, res) {
-    ParroquiaService.getById(req.params._id)
+function getRecintoById(req, res) {
+    RecintoService.getById(req.params._id)
         .then(function (obj) {
             if (obj) {
                 res.send(obj);
@@ -36,5 +36,5 @@ function getParroquiaById(req, res) {
         });
 };
 
-module.exports.queryParroquia=queryParroquia;
-module.exports.getParroquiaById=getParroquiaById;
+module.exports.queryRecinto=queryRecinto;
+module.exports.getRecintoById=getRecintoById;

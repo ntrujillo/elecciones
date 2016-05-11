@@ -1,6 +1,7 @@
 'use strict'
 var Zona = require('../models/./zona');
 var Recinto = require('../models/./recinto');
+var Q = require('q');
 var service = {};
 
 service.query = query;

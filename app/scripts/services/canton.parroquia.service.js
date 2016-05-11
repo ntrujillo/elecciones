@@ -1,6 +1,5 @@
 (function(angular){
 	'use strict';
-
 angular.module('ControlElectoralApp')
     .factory('CantonParroquiaResource', function ($resource) {
         return $resource('/api/canton/:id_canton/parroquia/:id', {}, {

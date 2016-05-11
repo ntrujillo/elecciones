@@ -1,8 +1,8 @@
 (function(angular){
 	'use strict';
 angular.module('ControlElectoralApp')
-    .factory('CantonResource', function ($resource) {
-        return $resource('/api/canton/:id', {}, {
+    .factory('ZonaRecintoResource', function ($resource) {
+        return $resource('/api/zona/:id_zona/recinto/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',

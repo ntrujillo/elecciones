@@ -1,3 +1,4 @@
+'use strict'
 var userService = require('services/user.service');
 
 function authenticateUser(req, res) {

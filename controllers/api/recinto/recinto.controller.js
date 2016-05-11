@@ -10,9 +10,9 @@ function queryRecinto(req, res) {
     
     RecintoService.query(q,fields, sort, page, perPage)
         .then(function (response) {
-            if (response.juntas) {
+            if (response.recintos) {
                 res.header('X-Total-Count',response.count);
-                res.send(response.juntas);
+                res.send(response.recintos);
             } else {
                 res.sendStatus(404);
             }

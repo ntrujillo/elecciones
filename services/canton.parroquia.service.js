@@ -142,7 +142,7 @@ function update(id_canton, id_parroquia, body) {
                     if (err) deferred.reject(err);
 
                     if (item) {
-                        // username already exists
+                        // codigo de parroquia already exists
                         deferred.reject('Code "' + body.code + '" is already taken')
                     } else {
                         updateParroquia(body);

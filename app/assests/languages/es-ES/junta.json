@@ -1,0 +1,16 @@
+{
+	"junta" : {
+            "home": {
+                "title": "Juntas",
+                "titleWithRecinto" :"Juntas de {{name}}",
+                "createLabel": "Crear junta",
+                "createOrEditLabel": "Crear or editar junta"
+            },
+            "delete": {
+                "question": "Está seguro que desea borrar la junta {{ id }}?"
+            },
+            "detail": {
+                "title": "junta"
+            }            
+    }
+}

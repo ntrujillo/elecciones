@@ -11,7 +11,7 @@ function queryRecinto(req, res) {
     
     service.query(req.params.id_zona, q, fields, sort, page, perPage)
         .then(function (response) {
-            if (response.parroquias) {
+            if (response.recintos) {
                 res.header('X-Total-Count',response.count);
                 res.send(response.recintos);
             } else {

@@ -221,7 +221,175 @@ angular.module('ControlElectoralApp')
                     }, data :{
 
                     }
-                })                    
+                }).state('app.parroquia', {
+                    parent:'app',
+                    url: '/parroquia',                    
+                    views:{
+                        'content':{
+                            templateUrl: 'views/parroquias.html',
+                            controller: 'ParroquiaCtrl as ctrl'
+                        }
+                    },                    
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'parroquia',
+                                    files: [                                      
+                                        'scripts/services/parroquia.service.js',
+                                        'scripts/controllers/parroquia.controller.js'                                        
+                                    ]
+                                }])
+                        }],
+                         translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                            $translatePartialLoader.addPart('parroquia');
+                            return $translate.refresh();
+                        }]
+                    },
+                    data : {
+
+                    }
+                }).state('app.parroquia-detail', {
+                    parent:'app',
+                    url: '/parroquia/{id}/zona',                   
+                    views:{
+                        'content':{
+                            templateUrl: 'views/parroquia-detail.html',
+                            controller: 'ParroquiaDetailCtrl as ctrl'
+                        }
+                    },                    
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'provincia-detail',
+                                    files: [   
+                                      'scripts/services/parroquia.service.js',                                    
+                                      'scripts/services/parroquia.zona.service.js',                                                                            
+                                      'scripts/controllers/parroquia-detail.controller.js'                                        
+                                    ]
+                                }])
+                        }],
+                        translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                            $translatePartialLoader.addPart('zona');
+                            return $translate.refresh();
+                        }]
+                    }, data :{
+
+                    }
+                }).state('app.zona', {
+                    parent:'app',
+                    url: '/zona',                    
+                    views:{
+                        'content':{
+                            templateUrl: 'views/zonas.html',
+                            controller: 'ZonaCtrl as ctrl'
+                        }
+                    },                    
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'zona',
+                                    files: [                                      
+                                        'scripts/services/zona.service.js',
+                                        'scripts/controllers/zona.controller.js'                                        
+                                    ]
+                                }])
+                        }],
+                         translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                            $translatePartialLoader.addPart('zona');
+                            return $translate.refresh();
+                        }]
+                    },
+                    data : {
+
+                    }
+                }).state('app.zona-detail', {
+                    parent:'app',
+                    url: '/zona/{id}/recinto',                   
+                    views:{
+                        'content':{
+                            templateUrl: 'views/zona-detail.html',
+                            controller: 'ZonaDetailCtrl as ctrl'
+                        }
+                    },                    
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'provincia-detail',
+                                    files: [   
+                                      'scripts/services/zona.service.js',                                    
+                                      'scripts/services/zona.recinto.service.js',                                                                            
+                                      'scripts/controllers/zona-detail.controller.js'                                        
+                                    ]
+                                }])
+                        }],
+                        translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                            $translatePartialLoader.addPart('recinto');
+                            return $translate.refresh();
+                        }]
+                    }, data :{
+
+                    }
+                }) .state('app.recinto', {
+                    parent:'app',
+                    url: '/recinto',                    
+                    views:{
+                        'content':{
+                            templateUrl: 'views/recintos.html',
+                            controller: 'RecintoCtrl as ctrl'
+                        }
+                    },                    
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'parroquia',
+                                    files: [                                      
+                                        'scripts/services/recinto.service.js',
+                                        'scripts/controllers/recinto.controller.js'                                        
+                                    ]
+                                }])
+                        }],
+                         translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                            $translatePartialLoader.addPart('recinto');
+                            return $translate.refresh();
+                        }]
+                    },
+                    data : {
+
+                    }
+                }).state('app.recinto-detail', {
+                    parent:'app',
+                    url: '/recinto/{id}/junta',                   
+                    views:{
+                        'content':{
+                            templateUrl: 'views/recinto-detail.html',
+                            controller: 'RecintoDetailCtrl as ctrl'
+                        }
+                    },                    
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'recinto-detail',
+                                    files: [   
+                                      'scripts/services/recinto.service.js',                                    
+                                      'scripts/services/recinto.junta.service.js',                                                                            
+                                      'scripts/controllers/recinto-detail.controller.js'                                        
+                                    ]
+                                }])
+                        }],
+                        translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                            $translatePartialLoader.addPart('junta');
+                            return $translate.refresh();
+                        }]
+                    }, data :{
+
+                    }
+                })                       
                 // Chart routes
                 .state('app.charts', {                   
                     abstract: true,

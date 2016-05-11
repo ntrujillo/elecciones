@@ -10,7 +10,7 @@ var Parroquia= new Schema({
 	name:String,
 	code:String,
 	canton: { type: mongoose.Schema.Types.ObjectId, ref: 'Canton' },
-	zona: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Zona' }]
+	zonas: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Zona' }]
 });
 
 Parroquia.index({code:'text'});

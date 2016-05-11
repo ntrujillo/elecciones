@@ -1,6 +1,5 @@
 (function (angular) {
     'use strict';
-
     angular.module('ControlElectoralApp')
         .factory('RegistroResource', ['$resource', 'DateUtils', function ($resource, DateUtils) {
             return $resource('api/registro/:id', {}, {

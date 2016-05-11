@@ -71,7 +71,7 @@ function getById(id) {
         if (Parroquia) {           
             deferred.resolve(parroquia);
         } else {
-            // user not found
+            // parroquia not found
             deferred.resolve();
         }
     });

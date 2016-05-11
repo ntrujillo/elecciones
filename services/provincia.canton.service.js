@@ -146,7 +146,7 @@ function update(id_provincia, id_canton, body) {
                     if (err) deferred.reject(err);
 
                     if (item) {
-                        // username already exists
+                        // canton code already exists
                         deferred.reject('Code "' + body.code + '" is already taken')
                     } else {
                         updateCanton(body);

@@ -19,8 +19,7 @@ angular
     ])
     .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider',"$translateProvider", "$translatePartialLoaderProvider",
         function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $translateProvider, $translatePartialLoaderProvider) {
-            // For unmatched routes
-            $urlRouterProvider.otherwise('/');
+            
             // Application routes
             $stateProvider
                 .state('app', {
@@ -39,7 +38,7 @@ angular
                     }
                     
             });
-
+            // For unmatched routes
             $urlRouterProvider.otherwise('home');
 
             $translateProvider.useLoader('$translatePartialLoader', {

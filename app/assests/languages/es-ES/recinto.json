@@ -1,0 +1,16 @@
+{
+	"recinto" : {
+            "home": {
+                "title": "Recintos",
+                "titleWithZona" :"Recintos de {{name}}",
+                "createLabel": "Crear Recinto",
+                "createOrEditLabel": "Crear or editar Recinto"
+            },
+            "delete": {
+                "question": "Está seguro que desea borrar la Recinto {{ id }}?"
+            },
+            "detail": {
+                "title": "Recinto"
+            }            
+    }
+}

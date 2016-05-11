@@ -60,7 +60,7 @@ angular.module('ControlElectoralApp')
                                 {
                                     name: 'provincia-dialog',
                                     files: [                                      
-                                        'scripts/services/canton.service.js',
+                                        'scripts/services/provincia.canton.service.js',
                                         'scripts/controllers/canton-dialog.controller.js'                                        
                                     ]
                                 }])

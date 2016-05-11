@@ -71,7 +71,7 @@ function getById(id) {
         if (canton) {           
             deferred.resolve(canton);
         } else {
-            // user not found
+            // canton not found
             deferred.resolve();
         }
     });

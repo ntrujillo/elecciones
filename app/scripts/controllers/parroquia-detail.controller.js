@@ -2,22 +2,20 @@
     'use strict';
 
 angular.module('ControlElectoralApp')
-    .controller('CantonDetailCtrl',['$stateParams','$uibModal', 'CantonParroquiaResource','CantonResource',
-        function ($stateParams, $modal, CantonParroquiaResource, CantonResource) {
+    .controller('ParroquiaDetailCtrl',['$stateParams','$uibModal', 'ParroquiaZonaResource','ParroquiaResource',
+        function ($stateParams, $modal, ServiceDetailResource, ServiceResource) {
         var ctrl = this;
         ctrl.registros = [];
         ctrl.pageno = 1;        
         ctrl.total_count = 0;
         ctrl.itemsPerPage = 5;
 
-
-
         function loadData(page) {
-            CantonResource.get({id:$stateParams.id},function(result){
-                ctrl.canton = result;
+            ServiceResource.get({id:$stateParams.id},function(result){
+                ctrl.parroquia = result;
             });
 
-            CantonParroquiaResource.query({id_canton: $stateParams.id, page: page, per_page: ctrl.itemsPerPage}, function(result, headers) {                
+            ServiceDetailResource.query({id_parroquia: $stateParams.id, page: page, per_page: ctrl.itemsPerPage}, function(result, headers) {                
                 ctrl.registros = result;
                 ctrl.total_count = headers('X-Total-Count');
             });
@@ -25,14 +23,14 @@ angular.module('ControlElectoralApp')
 
 
         function _delete(id) {
-            CantonParroquiaResource.get({id_canton: $stateParams.id, id:id}, function(result) {
+            ServiceDetailResource.get({id_parroquia: $stateParams.id, id:id}, function(result) {
                 ctrl.registro = result;
                 $('#deleteRegistroConfirmation').modal('show');
             });
         };
 
        function confirmDelete(id) {
-            CantonParroquiaResource.delete({id_canton: $stateParams.id, id: id},
+            ServiceDetailResource.delete({id_parroquia: $stateParams.id, id: id},
                 function () {
                     ctrl.loadData(ctrl.pageno);
                     $('#deleteRegistroConfirmation').modal('hide');                    
@@ -43,25 +41,25 @@ angular.module('ControlElectoralApp')
             ctrl.loadData(ctrl.pageno);          
         };    
 
-        function showModal(selectedCanton) {
+        function showModal(selectedParroquia) {
 
                 var modalInstance = $modal.open({
-                  templateUrl: 'views/parroquia-dialog.html',
-                  controller: 'ParroquiaDialogCtrl as ctrl',
+                  templateUrl: 'views/zona-dialog.html',
+                  controller: 'ZonaDialogCtrl as ctrl',
                   size: 'sm',
                   backdrop: 'static',
                   animation: true,
                   resolve : {
                     entity : function(){
-                        return selectedCanton;
+                        return selectedParroquia;
                     },
                     deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load([
                                 {
-                                    name: 'parroquia-dialog',
+                                    name: 'zona-dialog',
                                     files: [                                      
-                                        'scripts/services/canton.parroquia.service.js',
-                                        'scripts/controllers/parroquia-dialog.controller.js'                                        
+                                        'scripts/services/parroquia.zona.service.js',
+                                        'scripts/controllers/zona-dialog.controller.js'                                        
                                     ]
                                 }])
                         }]

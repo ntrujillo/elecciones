@@ -2,7 +2,7 @@
 
 var Recinto = require('../models/./recinto');
 var Junta = require('../models/./junta');
-
+var Q = require('q');
 var service = {};
 
 service.query = query;
@@ -174,7 +174,7 @@ function _delete(id_recinto, id_junta) {
     var deferred = Q.defer();
 
     Junta.remove(
-        { _id: id_recinto },
+        { _id: id_junta },
         function (err) {
             if (err) deferred.reject(err);
 

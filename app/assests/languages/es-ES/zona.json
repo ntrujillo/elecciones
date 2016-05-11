@@ -1,0 +1,16 @@
+{
+	"zona" : {
+            "home": {
+                "title": "Zonas",
+                "titleWithParroquia" :"Zonas de la Parroquia {{name}}",
+                "createLabel": "Crear Zona",
+                "createOrEditLabel": "Crear or editar Zona"
+            },
+            "delete": {
+                "question": "Está seguro que desea borrar la Zona {{ id }}?"
+            },
+            "detail": {
+                "title": "Zona"
+            }            
+    }
+}

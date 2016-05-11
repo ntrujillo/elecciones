@@ -1,7 +1,17 @@
-(function (angular) {
-    'use strict';
-    angular.module('ControlElectoralApp').factory('Parroquia', ['$resource', function ($resource) {
-        return $resource('/api/parroquia/:codeCanton', {query: {method: "GET", isArray: true}});
-    }]);
-
+(function(angular){
+	'use strict';
+angular.module('ControlElectoralApp')
+    .factory('ParroquiaResource', function ($resource) {
+        return $resource('/api/parroquia/:id', {}, {
+            'query': { method: 'GET', isArray: true},
+            'get': {
+                method: 'GET',
+                transformResponse: function (data) {
+                    data = angular.fromJson(data);
+                    return data;
+                }
+            },
+            'update': { method:'PUT' }
+        });
+    });
 }(window.angular));

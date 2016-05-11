@@ -10,11 +10,11 @@ function queryZona(req, res) {
     var page = req.query.page;
     var perPage = req.query.per_page;
     
-    service.query(req.params.id_canton, q, fields, sort, page, perPage)
+    service.query(req.params.id_parroquia, q, fields, sort, page, perPage)
         .then(function (response) {
-            if (response.parroquias) {
+            if (response.zonas) {
                 res.header('X-Total-Count',response.count);
-                res.send(response.parroquias);
+                res.send(response.zonas);
             } else {
                 res.sendStatus(404);
             }
@@ -24,8 +24,9 @@ function queryZona(req, res) {
         });
 };
 
+
 function getZonaById(req, res) {
-    service.getById(req.params.id_canton, req.params._id)
+    service.getById(req.params.id_parroquia, req.params._id)
         .then(function (obj) {
             if (obj) {
                 res.send(obj);
@@ -39,7 +40,7 @@ function getZonaById(req, res) {
 };
 
 function createZona(req, res) {
-    service.create(req.params.id_canton, req.body)
+    service.create(req.params.id_parroquia, req.body)
         .then(function () {
             res.sendStatus(200);
         })
@@ -50,7 +51,7 @@ function createZona(req, res) {
 
 
 function updateZona(req, res) {   
-    service.update(req.params.id_canton, req.params._id, req.body)
+    service.update(req.params.id_parroquia, req.params._id, req.body)
         .then(function () {
             res.sendStatus(200);
         })
@@ -60,7 +61,7 @@ function updateZona(req, res) {
 };
 
 function deleteZona(req, res) {    
-    service.delete(req.params.id_canton, req.params._id)
+    service.delete(req.params.id_parroquia, req.params._id)
         .then(function () {
             res.sendStatus(200);
         })

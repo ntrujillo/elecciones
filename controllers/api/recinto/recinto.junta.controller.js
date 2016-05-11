@@ -11,7 +11,7 @@ function queryJunta(req, res) {
     
     service.query(req.params.id_recinto, q, fields, sort, page, perPage)
         .then(function (response) {
-            if (response.parroquias) {
+            if (response.juntas) {
                 res.header('X-Total-Count',response.count);
                 res.send(response.juntas);
             } else {

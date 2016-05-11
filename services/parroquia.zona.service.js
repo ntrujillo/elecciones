@@ -104,7 +104,7 @@ function create(id_parroquia, body) {
    
 
     function createZona(obj) {   
-        obj.canton = id_parroquia;
+        obj.parroquia = id_parroquia;
          Zona.create(
             obj,
             function (err, doc) {
@@ -143,7 +143,7 @@ function update(id_parroquia, id_zona, body) {
                     if (err) deferred.reject(err);
 
                     if (item) {
-                        // username already exists
+                        // zone code already exists
                         deferred.reject('Code "' + body.code + '" is already taken')
                     } else {
                         updateZona(body);

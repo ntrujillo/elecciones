@@ -56,12 +56,13 @@
                         <td>{{registro.code}}</td>
                         <td>{{registro.name}}</td>                                   
                         <td>                       
-                            <button type="button" title="editar"
+                            <button type="button" title="{{'global.tooltip.edit'|translate}}"
                                     ng-click="ctrl.showModal(registro)"
                                     class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>
-                            </button>                             
-                            <button type="button" title="eliminar"
+                            </button>         
+
+                            <button type="button" title="{{'global.tooltip.delete'|translate}}"
                                     ng-click="ctrl.deleteRegistro(registro._id)"
                                     class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-remove-circle"></span>

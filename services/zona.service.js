@@ -2,7 +2,8 @@
 
 var Zona = require('../models/./zona');
 var Q = require('q');
-
+var plus = "+";
+var comma=",";
 var service = {};
 
 service.query = query;

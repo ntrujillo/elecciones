@@ -390,11 +390,8 @@ angular.module('ControlElectoralApp')
 
                     }
                 })                       
-                // Chart routes
-                .state('app.charts', {                   
-                    abstract: true,
-                    url: '/charts'
-                }).state('app.charts.flot', {
+               .state('app.charts-flot', {
+                    parent:'app',
                     url: '/flot',
                     views:{
                         'content':{
@@ -415,7 +412,7 @@ angular.module('ControlElectoralApp')
                                         'scripts/lib/flot/jquery.flot.time.js',
                                         'scripts/lib/flot/jquery.flot.pie.js',
                                         'scripts/lib/flot-spline/js/jquery.flot.spline.js',
-                                        'scripts/lib/flot.orderbars/js/jquery.flot.orderBars.js'
+                                        'scripts/lib/flot-orderBars/js/jquery.flot.orderBars.js'
                                     ]
                                 },
                                 {

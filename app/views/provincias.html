@@ -1,13 +1,24 @@
 <div>
-    <h2 translate="provincia.home.title">Provincias</h2>
-    <jh-alert></jh-alert>
+    
     <div class="container">
+        <h2 translate="provincia.home.title">Provincias</h2>
+        <jh-alert></jh-alert>
         <div class="row">
             <div class="col-md-4">
                 <button class="btn btn-primary" ng-click="ctrl.showModal()">
                     <span class="glyphicon glyphicon-flash"></span> <span translate="provincia.home.createLabel">Create a new Provincia</span>
                 </button>
             </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                  <input type="text" class="form-control" ng-model="ctrl.filter" placeholder="Search for...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="ctrl.refresh()">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                  </span>
+                </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
         </div>
     </div>
 

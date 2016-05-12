@@ -3,6 +3,8 @@ var Canton = require('../models/./canton');
 var Parroquia = require('../models/./parroquia');
 var Q = require('q');
 var service = {};
+var plus = "+";
+var comma=",";
 
 service.query = query;
 service.getById = getById;

@@ -11,7 +11,7 @@ angular.module('ControlElectoralApp')
         ctrl.itemsPerPage = 5;      
 
         function loadData(page) {
-            ProvinciaResource.query({page: page, per_page: ctrl.itemsPerPage}, function(result, headers) {                
+            ProvinciaResource.query({page: page, per_page: ctrl.itemsPerPage,q:ctrl.filter}, function(result, headers) {                
                 ctrl.registros = result;
                 ctrl.total_count = headers('X-Total-Count');
             });

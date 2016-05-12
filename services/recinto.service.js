@@ -2,6 +2,8 @@
 
 var Recinto = require('../models/./recinto');
 var Q = require('q');
+var plus = "+";
+var comma=",";
 
 var service = {};
 

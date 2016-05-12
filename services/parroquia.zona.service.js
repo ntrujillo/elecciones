@@ -4,6 +4,8 @@ var Parroquia = require('../models/./parroquia');
 var Zona = require('../models/./zona');
 var Q = require('q');
 var service = {};
+var plus = "+";
+var comma=",";
 
 service.query = query;
 service.getById = getById;

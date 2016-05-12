@@ -2,7 +2,8 @@
 
 var Provincia = require('../models/./provincia');
 var Q = require('q');
-
+var plus = "+";
+var comma=",";
 var service = {};
 
 service.query = query;
@@ -10,6 +11,7 @@ service.getById = getById;
 service.create = create;
 service.update = update;
 service.delete = _delete;
+
 
 module.exports = service;
 
@@ -40,16 +42,16 @@ function query(q,fields,sort,page,perPage){
     Provincia.find(criteria).count(function(error, count){
          
         if(error){
-               deferred.reject(err);
+               deferred.reject(error);
         }
         
         response.count = count;      
         //exec me permite dar mas especificaciones a find
         Provincia.find(criteria)
-        .select(fields)
-        .sort(sort)
+        .select(fields)      
         .skip(perPage * (page-1))
         .limit(perPage)
+        .sort(sort)
         .populate('cantones')
         .exec(function(error, provincias){
             if(error){

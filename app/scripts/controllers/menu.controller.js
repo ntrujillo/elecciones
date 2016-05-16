@@ -30,48 +30,41 @@ angular.module('ControlElectoralApp')
 
       $scope.data = [{
         'id': 1,
-        'title': 'node1',
-        'nodes': [
-          {
-            'id': 11,
-            'title': 'node1.1',
-            'nodes': [
-              {
-                'id': 111,
-                'title': 'node1.1.1',
-                'nodes': []
-              }
-            ]
-          },
-          {
-            'id': 12,
-            'title': 'node1.2',
-            'nodes': []
-          }
-        ]
+        'title': 'Inicio' ,
+        'nodes' : []      
       }, {
         'id': 2,
-        'title': 'node2',
+        'title': 'Registro De Votos',
         'nodrop': true, // An arbitrary property to check in custom template for nodrop-enabled
-        'nodes': [
-          {
-            'id': 21,
-            'title': 'node2.1',
-            'nodes': []
-          },
-          {
-            'id': 22,
-            'title': 'node2.2',
-            'nodes': []
-          }
-        ]
+        'nodes' : []
       }, {
         'id': 3,
-        'title': 'node3',
+        'title': 'Resultados',
         'nodes': [
           {
             'id': 31,
             'title': 'node3.1',
+            'nodes': []
+          }
+        ]
+      },{
+        'id': 4,
+        'title': 'Reportes',
+        'nodes': [
+          {
+            'id': 41,
+            'title': 'Conteo de Votos',
+            'nodes': []
+          }
+        ]
+      },
+      {
+        'id': 5,
+        'title': 'Entidades',
+        'nodes': [
+          {
+            'id': 51,
+            'title': 'Conteo de Votos',
             'nodes': []
           }
         ]

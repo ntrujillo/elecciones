@@ -13,6 +13,7 @@ service.getById = getById;
 service.create = create;
 service.update = update;
 service.delete = _delete;
+service.query = query;
 
 module.exports = service;
 
@@ -32,9 +33,62 @@ function authenticate(username, password) {
     return deferred.promise;
 };
 
+function query(q,fields,sort,page,perPage){
+    var criteria = {};
+    var response = {};
+    var deferred = Q.defer();
+    
+    if(q){
+        criteria.$text = {$search:q}
+    } 
+    if(sort){
+        sort = sort.replace(plus,'');
+        sort = sort.replace(comma,' ');
+    }
+    if(fields){
+        fields = fields.replace(comma,' ');
+    }
+    if(page){
+        page = parseInt(page);
+        if(perPage){
+            perPage = parseInt(perPage);
+        }else{
+            perPage = 10;
+        }
+    }   
+    
+    usersDb.find(criteria).count(function(error, count){
+         
+        if(error){
+               deferred.reject(error);
+        }
+        
+        response.count = count;      
+        //exec me permite dar mas especificaciones a find
+        usersDb.find(criteria)
+        .select(fields)      
+        .skip(perPage * (page-1))
+        .limit(perPage)
+        .sort(sort)
+        .populate('role')
+        .exec(function(error, users){
+            if(error){
+                   deferred.reject(err);
+            }
+            response.users = users;
+            deferred.resolve(response);  
+        });
+        
+    });
+    return deferred.promise;
+};
+
 function getById(_id) {
     var deferred = Q.defer();
-    usersDb.findById(_id, function (err, user) {
+
+  usersDb.findOne({_id:_id})
+    .populate('role')
+    .exec(function (err, user) {  
         if (err) deferred.reject(err);
 
         if (user) {
@@ -117,6 +171,9 @@ function update(_id, userParam) {
             firstName: userParam.firstName,
             lastName: userParam.lastName,
             username: userParam.username,
+            changepass:userParam.changepass,
+            email:userParam.email,
+            active : userParam.active
         };
 
         // update password if it was entered

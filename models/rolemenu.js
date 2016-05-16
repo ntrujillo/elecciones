@@ -6,14 +6,10 @@ var mongoose = require('mongoose');
 //MongoDB por default lo crea , en modo producción hay que crear primero el schema en la BDD
 var Schema = mongoose.Schema;
 
-var Junta= new Schema({
-	name:String,
-	code:String,
-	gender:String,
-	empadronados:Number,
-	recinto: { type: mongoose.Schema.Types.ObjectId, ref: 'Recinto' }
+var RoleMenu= new Schema({		
+	active:Boolean,	
+	role: { type: mongoose.Schema.Types.ObjectId, ref: 'Role' },
+	menu: { type: mongoose.Schema.Types.ObjectId, ref: 'Menu' }
 });
 
-Junta.index({code:'text', name:'text'});
-
-module.exports = mongoose.model('Junta',Junta);
+module.exports = mongoose.model('RoleMenu',RoleMenu);

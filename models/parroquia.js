@@ -13,6 +13,6 @@ var Parroquia= new Schema({
 	zonas: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Zona' }]
 });
 
-Parroquia.index({code:'text'});
+Parroquia.index({code:'text', name:'text'});
 
 module.exports = mongoose.model('Parroquia',Parroquia);

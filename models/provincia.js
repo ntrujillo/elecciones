@@ -12,6 +12,6 @@ var Provincia= new Schema({
 	cantones: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Canton' }]
 });
 
-Provincia.index({code:'text'});
+Provincia.index({code:'text', name:'text'});
 
 module.exports = mongoose.model('Provincia',Provincia);

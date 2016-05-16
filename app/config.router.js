@@ -333,7 +333,7 @@ angular.module('ControlElectoralApp')
                     }, data :{
 
                     }
-                }) .state('app.recinto', {
+                }).state('app.recinto', {
                     parent:'app',
                     url: '/recinto',                    
                     views:{
@@ -389,168 +389,62 @@ angular.module('ControlElectoralApp')
                     }, data :{
 
                     }
-                })                       
-               .state('app.charts-flot', {
+                })
+                .state('app.role', {
                     parent:'app',
-                    url: '/flot',
+                    url: '/role',                    
                     views:{
                         'content':{
-                            templateUrl: 'views/charts-flot.html'
+                            templateUrl: 'views/roles.html',
+                            controller: 'RoleCtrl as ctrl'
                         }
                     },                    
                     resolve: {
                         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load([
+                                {
+                                    name: 'role',
+                                    files: [                                      
+                                        'scripts/services/role.service.js',
+                                        'scripts/controllers/role.controller.js'                                        
+                                    ]
+                                }])
+                        }],
+                         translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                            $translatePartialLoader.addPart('role');
+                            return $translate.refresh();
+                        }]
+                    },
+                    data : {
 
-                                {
-                                    serie: true,
-                                    files: [
-                                        'scripts/lib/flot/jquery.flot.js',
-                                        'scripts/lib/flot/jquery.flot.resize.js',
-                                        'scripts/lib/flot/jquery.flot.categories.js',
-                                        'scripts/lib/flot/jquery.flot.stack.js',
-                                        'scripts/lib/flot/jquery.flot.time.js',
-                                        'scripts/lib/flot/jquery.flot.pie.js',
-                                        'scripts/lib/flot-spline/js/jquery.flot.spline.js',
-                                        'scripts/lib/flot-orderBars/js/jquery.flot.orderBars.js'
-                                    ]
-                                },
-                                {
-                                    name: 'angular-flot',
-                                    files: [
-                                        'bower_components/angular-flot/angular-flot.js'
-                                    ]
-                                }]).then(function () {
-                                return $ocLazyLoad.load('scripts/controllers/flot.js');
-                            });
-                        }]
-                    },
-                    data: {
-                        title: 'Flot Charts',
                     }
-                }).state('app.charts.easypie', {
-                    url: '/easypie',
-                    templateUrl: 'views/charts-easypie.html',
+                }).state('app.user', {
+                    parent:'app',
+                    url: '/user',                    
+                    views:{
+                        'content':{
+                            templateUrl: 'views/users.html',
+                            controller: 'UserCtrl as ctrl'
+                        }
+                    },                    
                     resolve: {
                         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load([
                                 {
-                                    name: 'easypiechart',
-                                    files: [
-                                        'scripts/lib/jquery.easy-pie-chart/dist/angular.easypiechart.js'
+                                    name: 'role',
+                                    files: [                                      
+                                        'scripts/services/user.service.js',
+                                        'scripts/controllers/user.controller.js'                                        
                                     ]
-                                }]).then(function () {
-                                return $ocLazyLoad.load('scripts/controllers/easychart.js');
-                            });
+                                }])
+                        }],
+                         translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                            $translatePartialLoader.addPart('user');
+                            return $translate.refresh();
                         }]
                     },
-                    data: {
-                        title: 'Easypie Charts',
-                    }
-                }).state('app.charts.chartjs', {
-                    url: '/chartjs',
-                    templateUrl: 'views/charts-chartjs.html',
-                    resolve: {
-                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load([
-                                {
-                                    files: [
-                                        'scripts/lib/chartjs/Chart.js',
-                                    ]
-                                },
-                                {
-                                    name: 'angles',
-                                    serie: true,
-                                    files: [
-                                        'scripts/lib/angles/angles.js'
-                                    ]
-                                }]).then(function () {
-                                return $ocLazyLoad.load('scripts/controllers/chartjs.js');
-                            });
-                        }]
-                    },
-                    data: {
-                        title: 'Chartjs',
-                    }
-                }).state('app.charts.rickshaw', {
-                    url: '/rickshaw',
-                    templateUrl: 'views/charts-rickshaw.html',
-                    resolve: {
-                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load([
-                                {
-                                    insertBefore: '#load_styles_before',
-                                    files: [
-                                        'scripts/lib/rickshaw/rickshaw.min.css'
-                                    ]
-                                },
-                                {
-                                    serie: true,
-                                    files: [
-                                        'bower_components/d3.min.js',
-                                        'scripts/lib/rickshaw/rickshaw.min.js'
-                                    ]
-                                }]).then(function () {
-                                return $ocLazyLoad.load('scripts/controllers/rickshaw.js');
-                            });
-                        }]
-                    },
-                    data: {
-                        title: 'Rickshaw Charts',
-                    }
-                }).state('app.charts.nvd3', {
-                    url: '/nvd3',
-                    templateUrl: 'views/charts-nvd3.html',
-                    resolve: {
-                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load([
-                                {
-                                    insertBefore: '#load_styles_before',
-                                    files: [
-                                        'scripts/lib/nvd3/nv.d3.min.css'
-                                    ]
-                                },
-                                {
-                                    name: 'nvd3',
-                                    serie: true,
-                                    files: [
-                                        'bower_components/d3/d3.min.js',
-                                        'scripts/lib/nvd3/nv.d3.min.js',
-                                        'scripts/lib/angular-nvd3/dist/angular-nvd3.min.js'
-                                    ]
-                                }]).then(function () {
-                                return $ocLazyLoad.load('scripts/controllers/nvd3.js');
-                            });
-                        }]
-                    },
-                    data: {
-                        title: 'Nvd3 Charts',
-                    }
-                }).state('app.charts.c3', {
-                    url: '/c3',
-                    templateUrl: 'views/charts-c3.html',
-                    resolve: {
-                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load([
-                                {
-                                    insertBefore: '#load_styles_before',
-                                    files: [
-                                        'scripts/lib/c3/c3.min.css'
-                                    ]
-                                },
-                                {
-                                    serie: true,
-                                    files: [
-                                        'bower_components/d3/d3.min.js',
-                                        'scripts/lib/c3/c3.min.js'
-                                    ]
-                                }]).then(function () {
-                                return $ocLazyLoad.load('scripts/controllers/c3.js');
-                            });
-                        }]
-                    },
-                    data: {
-                        title: 'C3',
+                    data : {
+
                     }
                 });               
     }]);

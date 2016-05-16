@@ -13,6 +13,6 @@ var Canton= new Schema({
 	parroquias: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Parroquia' }]
 });
 
-Canton.index({name:'text'});
+Canton.index({code:'text', name:'text'});
 
 module.exports = mongoose.model('Canton',Canton);

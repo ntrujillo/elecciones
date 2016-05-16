@@ -62,6 +62,13 @@ angular
                 window.scrollTo(0, 0);
                 $rootScope.activeTab = toState.data.activeTab;
             });
+
+           $http.get('/api/user/session/current').then(function(res){
+                $rootScope.user=res.data;
+                
+            }, function(res){
+                console.log("Error",res);
+            });
             FastClick.attach(document.body);           
         }
     ]);

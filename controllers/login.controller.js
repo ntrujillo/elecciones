@@ -17,10 +17,10 @@ router.get('/', function (req, res) {
 router.post('/', function (req, res) {
     // authenticate using api to maintain clean separation between layers
     request.post({
-        url: config.apiUrl + '/users/authenticate',
+        url: config.apiUrl + '/user/authenticate',
         form: req.body,
         json: true
-    }, function (error, response, body) {
+    }, function (error, response, body) {        
         if (error) {
             return res.render('login', { error: 'An error occurred' });
         }

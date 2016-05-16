@@ -15,9 +15,7 @@
         <span></span>
     </a>
     <!-- /toggle small sidebar menu -->
-
 </div>
-
 <!-- main navigation -->
 <nav role="navigation" side-navigation>
 
@@ -26,7 +24,7 @@
         <!-- dashboard -->
         <li ui-sref-active="active">
             <a ui-sref="home">
-                <i class="fa fa-flask"></i>
+                <i class="fa fa-home"></i>
                 <span translate="global.menu.home">Home</span>
             </a>
         </li>
@@ -101,8 +99,8 @@
 
         <li data-ng-class="{open: $state.includes('app.charts')}">
             <a href="javascript:;">
-                <i class="glyphicon glyphicon-cog"></i>
-                <span>Administrador</span>
+                <i class="fa fa-asterisk"></i>
+                <span translate="global.menu.entity">Entities</span>
             </a>
             <ul class="sub-menu">
                 <li ui-sref-active="active">
@@ -132,9 +130,35 @@
                 </li>                
             </ul>
         </li>
-
-
         <!--/admin-->
+          <li data-ng-class="{open: $state.includes('app.charts')}">
+            <a href="javascript:;">
+                <i class="fa fa-folder-open-o"></i>
+                <span translate="global.menu.admin">Adminstracion</span>
+            </a>
+            <ul class="sub-menu">
+                <li ui-sref-active="active">
+                    <a ui-sref="app.role">
+                        <span translate="global.menu.role">Roles</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="app.canton">
+                        <span translate="global.menu.menu">Menus</span>
+                    </a>
+                </li>  
+                <li ui-sref-active="active">
+                    <a ui-sref="app.canton">
+                        <span translate="global.menu.rolemenu">RoleMenus</span>
+                    </a>
+                </li>  
+                 <li ui-sref-active="active">
+                    <a ui-sref="app.user">
+                        <span translate="global.menu.user">Users</span>
+                    </a>
+                </li>                                   
+            </ul>
+        </li>
 
 </nav>
 <!-- /main navigation -->

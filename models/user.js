@@ -12,6 +12,9 @@ var User = new Schema({
 	email:String,
 	username:String,
 	createdAt:Date,
+	active:Boolean,
+	role: { type: mongoose.Schema.Types.ObjectId, ref: 'Role' },
+	changepass:Boolean,
 	hash:String	
 });
 

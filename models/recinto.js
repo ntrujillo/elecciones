@@ -27,6 +27,6 @@ var Recinto= new Schema({
 	juntas: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Junta' }]
 });
 
-Recinto.index({code:'text'});
+Recinto.index({code:'text', name:'text'});
 
 module.exports = mongoose.model('Recinto',Recinto);

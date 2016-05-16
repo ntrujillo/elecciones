@@ -1,5 +1,6 @@
 ﻿var express = require('express');
 var router = express.Router();
+var userService = require('services/user.service');
 
 // use session auth to secure the angular app files
 router.use('/', function (req, res, next) {
@@ -9,10 +10,13 @@ router.use('/', function (req, res, next) {
     next();
 });
 
+
 // make JWT token available to angular app
 router.get('/token', function (req, res) {
     res.send(req.session.token);
 });
+
+
 
 // serve angular app files from the '/app' route
 router.use('/', express.static('app'));

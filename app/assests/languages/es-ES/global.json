@@ -7,11 +7,18 @@
 			"entry-votos":"Ingresar Votos",
 			"search-votos":"Buscar Votos",
 			"admin":"Administración",
+            "role": "Roles",
+            "menu": "Menus",
+            "rolemenu" : "Roles-Menu",
+            "user":"Usuarios",
 			"signup":"Nuevo Usuario"
 		},
 		"home":{
 			"welcome":"Bienvenido",
-			"greeting":"Universidad Central del Ecuador"
+			"greeting":"Universidad Central del Ecuador",
+            "logout" : "Salir",
+            "user" : "Usuario: ",
+            "role" : "Rol: "
 		},
 	    "field" : {
 	    	"id" : "ID"

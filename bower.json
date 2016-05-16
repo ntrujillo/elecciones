@@ -37,10 +37,11 @@
     "ngstorage": "^0.3.10",
     "angular-translate": "^2.11.0",
     "angular-translate-loader-partial": "^2.11.0",
-    "angularUtils-pagination": "angular-utils-pagination#^0.11.1"
+    "angularUtils-pagination": "angular-utils-pagination#^0.11.1",
+    "angular-ui-tree": "^2.15.0"
   },
   "resolutions": {
-    "angular": "^1.5.4",
+    "angular": ">=1.4.0",
     "Chart.js": "^2.0.0"
   }
 }

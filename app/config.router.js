@@ -446,6 +446,34 @@ angular.module('ControlElectoralApp')
                     data : {
 
                     }
+                }).state('app.menu', {
+                    parent:'app',
+                    url: '/menu',                    
+                    views:{
+                        'content':{
+                            templateUrl: 'views/menus.html',
+                            controller: 'MenuCtrl as ctrl'
+                        }
+                    },                    
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'role',
+                                    files: [                                      
+                                        'scripts/services/menu.service.js',
+                                        'scripts/controllers/menu.controller.js'                                        
+                                    ]
+                                }])
+                        }],
+                         translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                            $translatePartialLoader.addPart('menu');
+                            return $translate.refresh();
+                        }]
+                    },
+                    data : {
+
+                    }
                 });               
     }]);
 }(window.angular));

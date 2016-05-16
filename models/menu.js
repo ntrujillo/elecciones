@@ -12,7 +12,7 @@ var Menu= new Schema({
 	icon:String,
 	description:String,
 	uistate:String,
-	status:Boolean,
+	active:Boolean,
 	menu: { type: mongoose.Schema.Types.ObjectId, ref: 'Menu' },	
 	rolemenu: [{ type: mongoose.Schema.Types.ObjectId, ref: 'RoleMenu' }]
 });

@@ -15,7 +15,8 @@ angular
         'oc.lazyLoad',
         'ngStorage',
         'pascalprecht.translate',
-        'angularUtils.directives.dirPagination'
+        'angularUtils.directives.dirPagination',
+        'ui.tree'
     ])
     .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider',"$translateProvider", "$translatePartialLoaderProvider",
         function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $translateProvider, $translatePartialLoaderProvider) {

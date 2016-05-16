@@ -51,7 +51,7 @@
             <label translate="user.field.role" 
             for="role">Login</label>            
              <select class="form-control" id="role" 
-                name="role" ng-model="user.role" 
+                name="role" ng-model="user.role._id" 
                 ng-options="c._id as c.name for c in roles" ng-required="true">                
             </select>     
             <div ng-show="editForm.role.$invalid">
